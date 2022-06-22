@@ -12,6 +12,12 @@
 // const _logistic = () => {
 
 // }
+// const ANCHORS = [0.573, 0.677, 1.87, 2.06, 3.34, 5.47, 7.88, 3.53, 9.77, 9.17];
+// const NEW_OD_OUTPUT_TENSORS = [
+//   "detected_boxes",
+//   "detected_scores",
+//   "detected_classes",
+// ];
 // const predictImage = async () => {
 //     console.log("Running predictions...");
 //     await $(".progress-bar").html("Running predictions").promise();
