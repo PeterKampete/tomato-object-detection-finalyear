@@ -8,7 +8,7 @@ import unripe from "../images/unripe.jpg";
 import "../App.css";
 
 import { firebaseImageFolder } from "../utils/target_classes";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/navbar";
 import RipeCard from "../components/RipeCard/RipeCard";
 import { Button, Main, Statistics } from "../styles";
 import { base64 } from "../utils/base64";
@@ -36,8 +36,21 @@ function Dashboard() {
       await model.loadModelAsync(
         "https://tomato-final.s3.eu-west-3.amazonaws.com/tensorflowObjectDetectionModel/model.json"
       );
-      const result = await model.executeAsync(first);
-      console.log("result", result);
+      const FirstImage = document.createElement('img');
+      FirstImage.src = first;
+      FirstImage.hidden = true;
+      // FirstImage.crossOrigin = 'anonymous';
+      FirstImage.onload = async () => {
+        /*const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.width = FirstImage.width;
+        canvas.height = FirstImage.height;
+        context.drawImage(FirstImage, 0, 0, FirstImage.width, FirstImage.height);*/
+        console.log('image is loaded');
+        const result = await model.executeAsync(FirstImage);
+        console.log("result", result);
+      }
+      document.body.appendChild(FirstImage);
       // console.log("res", res);
     };
     getSampleImage();
