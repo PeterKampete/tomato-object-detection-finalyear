@@ -2,8 +2,8 @@ import React from "react";
 import { NavbarContainer } from "../styles";
 const Navbar = () => {
   return (
-    <NavbarContainer className="navbar-container">
-      <h2>WELCOME</h2>
+    <NavbarContainer>
+      <h2>DASHBOARD</h2>
     </NavbarContainer>
   );
 };
