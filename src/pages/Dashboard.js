@@ -17,7 +17,7 @@ function Dashboard() {
   const [allImages, setAllImages] = useState([]);
   const [modelLoaded, setModelLoaded] = useState(false);
   const [model, setModel] = useState(null);
-  console.log(image);
+  console.log('image', allImages);
 
   useEffect(() => {
     const getSampleImage = async () => {
@@ -29,29 +29,38 @@ function Dashboard() {
       const urls = await Promise.all(
         imageRefs.items.map((ref) => ref.getDownloadURL())
       );
-      setAllImages(urls);
+      // setAllImages(urls);
+      const [first] = urls;
+      console.log('first',first);
+      const model = new cvstfjs.ObjectDetectionModel();
+      await model.loadModelAsync(
+        "https://tomato-final.s3.eu-west-3.amazonaws.com/tensorflowObjectDetectionModel/model.json"
+      );
+      const result = await model.executeAsync(first);
+      console.log("result", result);
+      // console.log("res", res);
     };
     getSampleImage();
   }, []);
 
-  useEffect(() => {
-    const loadModel = async () => {
-      setModelLoaded(false);
-      const model = new cvstfjs.ObjectDetectionModel();
-      const res = await model.loadModelAsync(
-        "https://tomato-final.s3.eu-west-3.amazonaws.com/tensorflowObjectDetectionModel/model.json"
-      );
-      console.log("res", res);
-      // const image = document.getElementById('image');
-      const result = await model.executeAsync(base64);
-      console.log("result", result);
-      // const [detected_boxes, detected_scores, detected_classes] = result
-      // console.log('result', detected_boxes, detected_scores, detected_classes);
-      // setModel(newModel);
-      // setModelLoaded(true);
-    };
-    loadModel();
-  }, [allImages]);
+
+
+  // useEffect(() => {
+  //   const loadModel = async () => {
+  //     setModelLoaded(false);
+     
+  //     const [ first ] = allImages;
+  //     console.log('first1', first);
+  //     // const image = document.getElementById('image');
+  //     const result = await model.executeAsync(base64);
+  //     console.log("result", result);
+  //     // const [detected_boxes, detected_scores, detected_classes] = result
+  //     // console.log('result', detected_boxes, detected_scores, detected_classes);
+  //     // setModel(newModel);
+  //     // setModelLoaded(true);
+  //   };
+  //   loadModel();
+  // }, [allImages]);
   return (
     <div className="Dashboard">
       <Navbar />
