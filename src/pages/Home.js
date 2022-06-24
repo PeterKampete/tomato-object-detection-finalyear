@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { AuthContainer, CustomLink, AuthButton, H1, Input } from "../styles";
-import image from "../images/0025.jpg";
+import image from "../images/bRipe.png";
 import "../App.css";
 
 const Home = () => {
@@ -12,7 +12,7 @@ const Home = () => {
         <img
           src={image}
           alt="nothing"
-          style={{ width: "80px", height: "80px" }}
+          style={{ width: "150px", height: "150px" }}
         />
         <Input>
           <input type="text" placeholder="Enter your name" />
@@ -21,7 +21,7 @@ const Home = () => {
           <input type="text" placeholder="Enter your password..." />
         </Input>
         <CustomLink to="/dashboard">
-          <AuthButton onClick>Sign Up</AuthButton>
+          <AuthButton>Sign Up</AuthButton>
         </CustomLink>
       </AuthContainer>
     </div>

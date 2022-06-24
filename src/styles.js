@@ -10,7 +10,7 @@ export const NavbarContainer = styled.div`
   display: flex;
   align-items: center;
   padding: 0px 10px;
-  color: white
+  color: white;
 `;
 export const Button = styled.button`
   width: 40%;
@@ -27,6 +27,11 @@ export const Button = styled.button`
     font-weight: bold;
   }
 `;
+export const GetStatistics = styled(Button)`
+  width: 35%;
+  height: 50px;
+`;
+
 export const Main = styled.div`
   width: 100%;
   display: flex;
@@ -50,7 +55,7 @@ export const H1 = styled.h1`
 `;
 export const AuthContainer = styled.div`
   box-shadow: 0px 0px 3px 6px rgba(255, 255, 255, 0.8);
-  height: 50%;
+  height: 60%;
   width: 40%;
   margin-top: 40px;
   padding-bottom: 2px;
@@ -87,5 +92,22 @@ export const CustomLink = styled(Link)`
   justify-content: center;
   align-items: center;
   width: 100%;
-  text-decoration: none
+  text-decoration: none;
+`;
+export const Percentage = styled.div`
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 0px 14px 10px rgba(0, 255, 0, 1);
+  border-radius: 200px;
+  height: 300px;
+  width: 400px;
+  padding: 10px;
+  justify-content: space-evenly;
+  align-items: center;
+`;
+export const H12 = styled.h1`
+  margin-bottom: 0px;
+  font-size: 80px;
+  font-weight: bold;
+  color: green
 `;

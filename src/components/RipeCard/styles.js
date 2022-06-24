@@ -47,7 +47,7 @@ export const Value = styled.h1`
   color: #ffffff;
   font-size: 60px;
 `;
-export const ValueContainer = styled.h1`
+export const ValueContainer = styled.div`
   background-color: ${({ bgColor }) => bgColor};
   padding: 30px;
   height: 100%;
