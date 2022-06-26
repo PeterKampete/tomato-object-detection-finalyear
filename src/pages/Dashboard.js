@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import fire from "../firebase/index";
 import * as cvstfjs from "@microsoft/customvision-tfjs";
 import Thumb from "../images/thumb.svg";
-import ripe from "../images/ripe1.png";
-import unripe from "../images/unripe1.png";
+import ripeImg from "../images/ripe1.png";
+import unripeImg from "../images/unripe1.png";
 import "../App.css";
 
-import { firebaseImageFolder } from "../utils/target_classes";
+import { firebaseImageFolder, TARGET_CLASSES } from "../utils/target_classes";
 import Navbar from "../components/Navbar/Navbar";
 import RipeCard from "../components/RipeCard/RipeCard";
 import {
@@ -26,44 +26,59 @@ function Dashboard({ handleLogout }) {
   const [allImages, setAllImages] = useState([]);
   const [modelLoaded, setModelLoaded] = useState(false);
   const [model, setModel] = useState(null);
+  const [ripe, setRipe] = useState(0);
+  const [unripe, setUnripe] = useState(0);
+  const [predictions, setPredictions] = useState([]);
+  const [boxes, setBoxes] = useState([]);
+  const [classes, setClasses] = useState([]);
+  const [scores, setScores] = useState([]);
 
   useEffect(() => {
     const getSampleImage = async () => {
-      const imageRefs = await fire
-        .storage()
-        .ref()
-        .child(firebaseImageFolder)
-        .listAll();
-      const urls = await Promise.all(
-        imageRefs.items.map((ref) => ref.getDownloadURL())
-      );
-      // setAllImages(urls);
-      const [first] = urls;
+      // const imageRefs = await fire
+      //   .storage()
+      //   .ref()
+      //   .child(firebaseImageFolder)
+      //   .listAll();
+      // const urls = await Promise.all(
+      //   imageRefs.items.map((ref) => ref.getDownloadURL())
+      // );
+      // const [first] = urls;
 
       const FirstImage = document.createElement("img");
       FirstImage.crossOrigin = "anonymous";
-      FirstImage.src = first;
+      FirstImage.src = unripeImg;
       FirstImage.hidden = true;
       FirstImage.onload = async () => {
-        /*const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        canvas.width = FirstImage.width;
-        canvas.height = FirstImage.height;
-        context.drawImage(FirstImage, 0, 0, FirstImage.width, FirstImage.height);*/
-        console.log("image is loaded");
-        console.log("first image is loaded", FirstImage);
         const model = new cvstfjs.ObjectDetectionModel();
-        await model.loadModelAsync(
-          "https://tomato-final.s3.eu-west-3.amazonaws.com/tensorflowObjectDetectionModel/model.json"
-        );
+        await model.loadModelAsync("http://localhost/model.json");
         const result = await model.executeAsync(FirstImage);
-        console.log("result", result);
+        const [detected_boxes, detected_scores, detected_classes] = result;
+        setBoxes(detected_boxes);
+        setClasses(detected_classes);
+        setScores(detected_scores);
+        console.log("Allset");
       };
       document.body.appendChild(FirstImage);
-      // console.log("res", res);
     };
     getSampleImage();
   }, []);
+
+  const handleDetails = () => {
+    console.log("detected_classes", classes);
+    console.log("detected_scores", scores);
+    console.log("detected_boxes", boxes);
+    boxes.forEach((item, i) => {
+      if (classes[i] === 1 && scores[i] >= 0.23) {
+        setUnripe((count) => count + 1);
+        return;
+      } else if (classes[i] === 0 && scores[i] >= 0.23) {
+        setRipe((count) => count + 1);
+        return;
+      }
+    });
+  };
+
 
   return (
     <div className="Dashboard">
@@ -71,9 +86,9 @@ function Dashboard({ handleLogout }) {
       <Main>
         <RipeStatistics>
           <RipeCard
-            src={ripe}
+            src={ripeImg}
             heading="Ripe"
-            value="20, 000"
+            value={ripe}
             color="rgb(137, 18, 18)"
             bShadow="0px 0px 3px 2px rgba(137, 18, 18, 0.2)"
           />
@@ -86,9 +101,9 @@ function Dashboard({ handleLogout }) {
             </div>
           </Percentage>
           <RipeCard
-            src={unripe}
+            src={unripeImg}
             heading="Unripe"
-            value="80, 000"
+            value={unripe}
             color="green"
             bShadow="0px 0px 3px 2px rgba(0, 255, 0, 0.2)"
           />
@@ -109,11 +124,11 @@ function Dashboard({ handleLogout }) {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: '#13033b',
-          height: '100%',
+          backgroundColor: "#13033b",
+          height: "100%",
         }}
       >
-        <GetStatistics>Get Statistics</GetStatistics>
+        <GetStatistics onClick={handleDetails}>Get Statistics</GetStatistics>
       </div>
     </div>
   );

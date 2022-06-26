@@ -5,6 +5,4 @@ const TARGET_CLASSES = {
 const firebaseImageFolder = "tomatoimages";
 
 
-
-
 export { TARGET_CLASSES, firebaseImageFolder };
