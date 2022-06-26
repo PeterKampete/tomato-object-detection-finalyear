@@ -7,7 +7,6 @@ export const Container = styled.div`
   height: 530px;
   width: 100%;
   padding: 20px;
-  padding-top: 40px;
   justify-content: space-between;
 `;
 export const Image = styled.div`
@@ -18,13 +17,12 @@ export const Image = styled.div`
 `;
 export const Card = styled.div`
   display: grid;
-  grid-template-rows: 0.3fr 1fr;
+  grid-template-rows: 0.4fr 1fr;
   align-items: center;
   box-shadow: ${({ bShadow }) => bShadow};
-  width: 50%;
-  height: 100%;
-  padding: 10px;
-  margin-top: 10px;
+  width: 100%;
+  height: 60%;
+  justify-content: center;
   transform: scale(0.9);
   :hover {
     transition: 1s ease-in-out;
@@ -37,20 +35,18 @@ export const Heading = styled.h2`
   text-align: center;
   padding: 0px;
   color: ${(props) => props.color};
-  font-size: 40px;
+  font-size: 20px;
 `;
 export const Value = styled.h1`
   margin: 0px;
   text-transform: uppercase;
   text-align: center;
   padding: 0px;
-  color: #ffffff;
-  font-size: 60px;
+  color: ${(props) => props.color};
+  font-size: 80px;
 `;
 export const ValueContainer = styled.div`
-  background-color: ${({ bgColor }) => bgColor};
-  padding: 30px;
-  height: 100%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;

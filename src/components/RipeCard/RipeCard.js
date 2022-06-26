@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Image, Card, Heading, Value, ValueContainer } from "./styles";
 
-const RipeCard = ({ src, heading, value, color, bShadow, bgColor }) => {
+const RipeCard = ({ src, heading, value, bShadow, color }) => {
   return (
     <Container>
       <Image>
@@ -9,8 +9,8 @@ const RipeCard = ({ src, heading, value, color, bShadow, bgColor }) => {
           src={src}
           alt="nothing"
           style={{
-            width: "100%",
-            height: "100%",
+            width: "80%",
+            height: "80%",
             objectFit: "center",
             borderRadius: "50%",
           }}
@@ -28,8 +28,8 @@ const RipeCard = ({ src, heading, value, color, bShadow, bgColor }) => {
         >
           <Heading color={color}>{heading}</Heading>
         </div>
-        <ValueContainer bgColor={bgColor}>
-          <Value>{value}</Value>
+        <ValueContainer>
+          <Value color={color}>{value}</Value>
         </ValueContainer>
       </Card>
     </Container>

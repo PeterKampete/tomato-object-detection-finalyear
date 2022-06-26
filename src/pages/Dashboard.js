@@ -1,26 +1,35 @@
 import React, { useState, useEffect } from "react";
-import firebase from "firebase/app";
-import "firebase/storage";
+import fire from "../firebase/index";
 import * as cvstfjs from "@microsoft/customvision-tfjs";
-// import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import Thumb from "../images/thumb.svg";
 import ripe from "../images/ripe1.png";
 import unripe from "../images/unripe1.png";
 import "../App.css";
 
 import { firebaseImageFolder } from "../utils/target_classes";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar/Navbar";
 import RipeCard from "../components/RipeCard/RipeCard";
-import { GetStatistics, Main, Statistics, Percentage, H12 } from "../styles";
+import {
+  GetStatistics,
+  Main,
+  ConStatistics,
+  Percentage,
+  H12,
+  RipeStatistics,
+  ConCard,
+  ConCard1,
+  H11,
+  H1,
+} from "../styles";
 
-function Dashboard() {
+function Dashboard({ handleLogout }) {
   const [allImages, setAllImages] = useState([]);
   const [modelLoaded, setModelLoaded] = useState(false);
   const [model, setModel] = useState(null);
 
   useEffect(() => {
     const getSampleImage = async () => {
-      const imageRefs = await firebase
+      const imageRefs = await fire
         .storage()
         .ref()
         .child(firebaseImageFolder)
@@ -30,10 +39,7 @@ function Dashboard() {
       );
       // setAllImages(urls);
       const [first] = urls;
-      const model = new cvstfjs.ObjectDetectionModel();
-      await model.loadModelAsync(
-        "https://tomato-final.s3.eu-west-3.amazonaws.com/tensorflowObjectDetectionModel/model.json"
-      );
+
       const FirstImage = document.createElement("img");
       FirstImage.crossOrigin = "anonymous";
       FirstImage.src = first;
@@ -45,6 +51,11 @@ function Dashboard() {
         canvas.height = FirstImage.height;
         context.drawImage(FirstImage, 0, 0, FirstImage.width, FirstImage.height);*/
         console.log("image is loaded");
+        console.log("first image is loaded", FirstImage);
+        const model = new cvstfjs.ObjectDetectionModel();
+        await model.loadModelAsync(
+          "https://tomato-final.s3.eu-west-3.amazonaws.com/tensorflowObjectDetectionModel/model.json"
+        );
         const result = await model.executeAsync(FirstImage);
         console.log("result", result);
       };
@@ -56,25 +67,22 @@ function Dashboard() {
 
   return (
     <div className="Dashboard">
-      <Navbar />
-      {modelLoaded ? <div>Loading Model</div> : <div>loading model...</div>}
-
+      <Navbar handleLogout={handleLogout} />
       <Main>
-        <Statistics>
+        <RipeStatistics>
           <RipeCard
             src={ripe}
             heading="Ripe"
             value="20, 000"
             color="rgb(137, 18, 18)"
-            bgColor="rgb(137, 18, 18)"
-            bShadow="-6px -6px 12px 3px rgba(137, 18, 18, 0.6)"
+            bShadow="0px 0px 3px 2px rgba(137, 18, 18, 0.2)"
           />
           <Percentage>
             <div>
-              <img src={Thumb} style={{ width: "100%", height: "60px" }} />
+              <img src={Thumb} style={{ width: "100%", height: "30px" }} />
             </div>
             <div>
-              <H12>80%</H12>
+              <H11>80%</H11>
             </div>
           </Percentage>
           <RipeCard
@@ -82,12 +90,31 @@ function Dashboard() {
             heading="Unripe"
             value="80, 000"
             color="green"
-            bgColor="green"
-            bShadow="6px -6px 12px 3px rgba(0, 255, 0, 0.6)"
+            bShadow="0px 0px 3px 2px rgba(0, 255, 0, 0.2)"
           />
-        </Statistics>
-        <GetStatistics>Get Statistics</GetStatistics>
+        </RipeStatistics>
+        <ConStatistics>
+          <ConCard>
+            <H11>Contamination percentage</H11>
+            <H1>60%</H1>
+          </ConCard>
+          <ConCard1>
+            <H12>other statistics</H12>
+          </ConCard1>
+        </ConStatistics>
       </Main>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: '#13033b',
+          height: '100%',
+        }}
+      >
+        <GetStatistics>Get Statistics</GetStatistics>
+      </div>
     </div>
   );
 }

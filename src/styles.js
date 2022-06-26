@@ -4,11 +4,13 @@ import { Link } from "react-router-dom";
 export const NavbarContainer = styled.div`
   width: 100%;
   height: 60px;
-  background-color: rgba(137, 18, 18, 0.8);
+  background-color: #13033b;
   margin: 0;
   padding: 0;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 0.1fr;
   align-items: center;
+  justify-content: space-between;
   padding: 0px 10px;
   color: white;
 `;
@@ -28,30 +30,64 @@ export const Button = styled.button`
   }
 `;
 export const GetStatistics = styled(Button)`
-  width: 35%;
+  width: 30%;
   height: 50px;
+  font-weight: bold;
+  margin-top: 60px;
+  background-color: #fff;
+  color: #13033b;
+  border: none;
+  :hover {
+    background-color: #13033b;
+    border: 2px solid #fff;
+  }
 `;
 
 export const Main = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 0.7fr;
+  box-sizing: border-box;
+`;
+
+export const ConStatistics = styled.div`
   width: 100%;
+  display: grid;
+  grid-template-rows: 1fr 0.5fr;
+  grid-template-columns: 1fr;
+  justify-content: center;
+  row-gap: 0px;
+`;
+export const ConCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-sizing: border-box;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  width: 100%;
+  :hover {
+    transition: 1s ease-in-out;
+  }
 `;
-export const Statistics = styled.div`
+export const ConCard1 = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  transform: scale(1);
+  background-color: rgba(200, 200, 200);
+  color: rgba(200, 200, 200);
+  width: 100%;
+  :hover {
+    transition: 1s ease-in-out;
+    background-color: rgba(200, 200, 200);
+  }
+`;
+export const RipeStatistics = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   box-sizing: border-box;
   justify-content: space-between;
-`;
-export const H1 = styled.h1`
-  text-align: center;
-  color: white;
-  margin-bottom: 20px;
 `;
 export const AuthContainer = styled.div`
   box-shadow: 0px 0px 3px 6px rgba(255, 255, 255, 0.8);
@@ -97,17 +133,27 @@ export const CustomLink = styled(Link)`
 export const Percentage = styled.div`
   display: flex;
   flex-direction: column;
-  box-shadow: 0px 0px 14px 10px rgba(0, 255, 0, 1);
-  border-radius: 200px;
-  height: 300px;
-  width: 400px;
-  padding: 10px;
+  box-shadow: 1.5px 0px 2px 1px #603bbb;
+  border-radius: 50%;
+  padding: 20px;
   justify-content: space-evenly;
   align-items: center;
 `;
 export const H12 = styled.h1`
   margin-bottom: 0px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #603bbb;
+`;
+export const H11 = styled.h1`
+  margin-bottom: 0px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #603bbb;
+`;
+export const H1 = styled.h1`
+  margin-bottom: 0px;
   font-size: 80px;
   font-weight: bold;
-  color: green
+  color: #603bbb;
 `;
