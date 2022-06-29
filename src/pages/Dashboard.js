@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import fire from "../firebase/index";
 import * as cvstfjs from "@microsoft/customvision-tfjs";
+import { imgArr } from "../images/train/index";
 import Thumb from "../images/thumb.svg";
 import ripeImg from "../images/ripe1.png";
 import unripeImg from "../images/unripe1.png";
@@ -23,62 +24,42 @@ import {
 } from "../styles";
 
 function Dashboard({ handleLogout }) {
-  const [allImages, setAllImages] = useState([]);
-  const [modelLoaded, setModelLoaded] = useState(false);
-  const [model, setModel] = useState(null);
   const [ripe, setRipe] = useState(0);
   const [unripe, setUnripe] = useState(0);
-  const [predictions, setPredictions] = useState([]);
   const [boxes, setBoxes] = useState([]);
   const [classes, setClasses] = useState([]);
   const [scores, setScores] = useState([]);
+  // const imageRefs = await fire
+  //   .storage()
+  //   .ref()
+  //   .child(firebaseImageFolder)
+  //   .listAll();
+  // const urls = await Promise.all(
+  //   imageRefs.items.map((ref) => ref.getDownloadURL())
+  // );
+  // const [first] = urls;
 
   useEffect(() => {
     const getSampleImage = async () => {
-      // const imageRefs = await fire
-      //   .storage()
-      //   .ref()
-      //   .child(firebaseImageFolder)
-      //   .listAll();
-      // const urls = await Promise.all(
-      //   imageRefs.items.map((ref) => ref.getDownloadURL())
-      // );
-      // const [first] = urls;
-
-      const FirstImage = document.createElement("img");
-      FirstImage.crossOrigin = "anonymous";
-      FirstImage.src = unripeImg;
-      FirstImage.hidden = true;
-      FirstImage.onload = async () => {
-        const model = new cvstfjs.ObjectDetectionModel();
-        await model.loadModelAsync("http://localhost/model.json");
-        const result = await model.executeAsync(FirstImage);
-        const [detected_boxes, detected_scores, detected_classes] = result;
-        setBoxes(detected_boxes);
-        setClasses(detected_classes);
-        setScores(detected_scores);
-        console.log("Allset");
-      };
-      document.body.appendChild(FirstImage);
+        const FirstImage = document.createElement("img");
+        FirstImage.crossOrigin = "anonymous";
+        FirstImage.src = ripeImg;
+        FirstImage.hidden = true;
+        FirstImage.onload = async () => {
+          const model = new cvstfjs.ObjectDetectionModel();
+          await model.loadModelAsync("http://localhost/model.json");
+          const result = await model.executeAsync(FirstImage);
+          const [detected_boxes, detected_scores, detected_classes] = result;
+          console.log('result', result)  ;        
+          const results = detected_boxes.filter(
+            (element, i) => detected_classes[i] === 1 && detected_scores >= 0.23
+          );
+          console.log("AllSet", results);
+        };
+        document.body.appendChild(FirstImage);
     };
     getSampleImage();
   }, []);
-
-  const handleDetails = () => {
-    console.log("detected_classes", classes);
-    console.log("detected_scores", scores);
-    console.log("detected_boxes", boxes);
-    boxes.forEach((item, i) => {
-      if (classes[i] === 1 && scores[i] >= 0.23) {
-        setUnripe((count) => count + 1);
-        return;
-      } else if (classes[i] === 0 && scores[i] >= 0.23) {
-        setRipe((count) => count + 1);
-        return;
-      }
-    });
-  };
-
 
   return (
     <div className="Dashboard">
@@ -128,7 +109,7 @@ function Dashboard({ handleLogout }) {
           height: "100%",
         }}
       >
-        <GetStatistics onClick={handleDetails}>Get Statistics</GetStatistics>
+        <GetStatistics>Get Statistics</GetStatistics>
       </div>
     </div>
   );
