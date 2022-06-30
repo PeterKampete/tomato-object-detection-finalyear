@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import fire from "../firebase/index";
 import * as cvstfjs from "@microsoft/customvision-tfjs";
 import { imgArr } from "../images/train/index";
 import Thumb from "../images/thumb.svg";
-import ripeImg from "../images/ripe1.png";
+import ripeImg from "../images/bRipe.png";
 import unripeImg from "../images/unripe1.png";
 import "../App.css";
 
@@ -26,9 +26,13 @@ import {
 function Dashboard({ handleLogout }) {
   const [ripe, setRipe] = useState(0);
   const [unripe, setUnripe] = useState(0);
-  const [boxes, setBoxes] = useState([]);
-  const [classes, setClasses] = useState([]);
-  const [scores, setScores] = useState([]);
+
+  // const incRipe = useCallback(() => {
+  //   setRipe(ripe + 1);
+  // }, [ripe]);
+  // const incUnripe = useCallback(() => {
+  //   setUnripe(unripe + 1);
+  // }, [unripe]);
   // const imageRefs = await fire
   //   .storage()
   //   .ref()
@@ -38,25 +42,31 @@ function Dashboard({ handleLogout }) {
   //   imageRefs.items.map((ref) => ref.getDownloadURL())
   // );
   // const [first] = urls;
-
   useEffect(() => {
     const getSampleImage = async () => {
-        const FirstImage = document.createElement("img");
-        FirstImage.crossOrigin = "anonymous";
-        FirstImage.src = ripeImg;
-        FirstImage.hidden = true;
-        FirstImage.onload = async () => {
-          const model = new cvstfjs.ObjectDetectionModel();
-          await model.loadModelAsync("http://localhost/model.json");
-          const result = await model.executeAsync(FirstImage);
-          const [detected_boxes, detected_scores, detected_classes] = result;
-          console.log('result', result)  ;        
-          const results = detected_boxes.filter(
-            (element, i) => detected_classes[i] === 1 && detected_scores >= 0.23
-          );
-          console.log("AllSet", results);
-        };
-        document.body.appendChild(FirstImage);
+      const FirstImage = document.createElement("img");
+      FirstImage.crossOrigin = "anonymous";
+      FirstImage.src = unripeImg;
+      FirstImage.hidden = true;
+      FirstImage.onload = async () => {
+        const model = new cvstfjs.ObjectDetectionModel();
+        await model.loadModelAsync("http://localhost/model.json");
+        const result = await model.executeAsync(FirstImage);
+        const [detected_boxes, detected_scores, detected_classes] = result;
+        console.log("Results", result);
+        var count = 0;
+        for (let i = 0; i < detected_boxes.length; i++) {
+          if (detected_classes[i] === 1 && detected_scores[i] >= 0.23) {
+            count++;
+            setUnripe(count);
+          }
+          if (detected_classes[i] === 0 && detected_scores[i] >= 0.6) {
+            // count++;
+            // setRipe(count)
+          }
+        }
+      };
+      document.body.appendChild(FirstImage);
     };
     getSampleImage();
   }, []);
