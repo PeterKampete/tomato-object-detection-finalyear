@@ -5,6 +5,7 @@ import { imgArr } from "../images/train/index";
 import Thumb from "../images/thumb.svg";
 import ripeImg from "../images/ripe1.png";
 import unripeImg from "../images/unripe1.png";
+import test from "../images/train/t4.jpg";
 import "../App.css";
 
 import { firebaseImageFolder, TARGET_CLASSES } from "../utils/target_classes";
@@ -27,7 +28,7 @@ function Dashboard({ handleLogout }) {
   const [ripe, setRipe] = useState(0);
   const [unripe, setUnripe] = useState(0);
   const [percentage, setPercentage] = useState(0);
-  const [tr1, tr2, tr3, tr4, tr5] = imgArr;
+  const [loading, setLoading] = useState(false);
   // const imageRefs = await fire
   //   .storage()
   //   .ref()
@@ -37,11 +38,12 @@ function Dashboard({ handleLogout }) {
   //   imageRefs.items.map((ref) => ref.getDownloadURL())
   // );
   // const [first] = urls;
-  useEffect(() => {
-    const getSampleImage = async () => {
+
+  const trainHandler = async () => {
+    imgArr.forEach((image) => {
       const FirstImage = document.createElement("img");
       FirstImage.crossOrigin = "anonymous";
-      FirstImage.src = tr2;
+      FirstImage.src = image;
       FirstImage.hidden = true;
       FirstImage.onload = async () => {
         const model = new cvstfjs.ObjectDetectionModel();
@@ -49,22 +51,26 @@ function Dashboard({ handleLogout }) {
         const result = await model.executeAsync(FirstImage);
         const [detected_boxes, detected_scores, detected_classes] = result;
         console.log("Results", result);
-        var count = 0;
+        // let countRipe = 0;
+        // let countUnRipe = 0;
         for (let i = 0; i < detected_boxes.length; i++) {
-          if (detected_classes[i] === 1 && detected_scores[i] >= 0.23) {
-            count++;
-            setUnripe(count);
-          }
           if (detected_classes[i] === 0 && detected_scores[i] >= 0.22) {
-            count++;
-            setRipe(count);
+            // countRipe++;
+            setRipe((prev) => prev + 1);
+          }
+          if (detected_classes[i] === 1 && detected_scores[i] >= 0.23) {
+            // countUnRipe++;
+            setUnripe((prev) => prev + 1);
           }
         }
+        // countRipe = 0;
+        // countUnRipe = 0;
       };
       document.body.appendChild(FirstImage);
-    };
-    getSampleImage();
-  }, []);
+    });
+  };
+
+  useEffect(() => {}, []);
 
   useEffect(() => {
     const totPerc = ((ripe / (ripe + unripe)) * 100).toFixed(2);
@@ -119,7 +125,7 @@ function Dashboard({ handleLogout }) {
           height: "100%",
         }}
       >
-        <GetStatistics>Get Statistics</GetStatistics>
+        <GetStatistics onClick={trainHandler}>Get Statistics</GetStatistics>
       </div>
     </div>
   );
