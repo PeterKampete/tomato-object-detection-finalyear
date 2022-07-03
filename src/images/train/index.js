@@ -1,6 +1,7 @@
-import img1 from "./0084.jpg";
-import img2 from "./0124.jpg";
-import img3 from "./0174.jpg";
-import img4 from "./0210.jpg";
+import img1 from "./t1.jpg";
+import img2 from "./t2.jpg";
+import img3 from "./t3.jpg";
+import img4 from "./t4.jpg";
+import img5 from "./t5.jpg";
 
-export const imgArr = [img1, img2, img3, img4];
+export const imgArr = [img1, img2, img3, img4, img5];

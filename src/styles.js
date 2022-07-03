@@ -135,7 +135,7 @@ export const Percentage = styled.div`
   flex-direction: column;
   box-shadow: 1.5px 0px 2px 1px #603bbb;
   border-radius: 50%;
-  padding: 20px;
+  padding: 18px;
   justify-content: space-evenly;
   align-items: center;
 `;

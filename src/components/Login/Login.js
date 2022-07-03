@@ -25,7 +25,7 @@ const Login = (props) => {
             alt="login"
           />
         </div>
-        <label>Username</label>
+        <label>Email</label>
         <input
           type="text"
           autoFocus

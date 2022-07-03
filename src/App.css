@@ -5,10 +5,9 @@
 }
 
 .Dashboard {
-  padding-bottom: 5px;
-  height: 21vh;
-  position: fixed;
+  height: 100%;
   width: 100%;
+  box-sizing: border-box;
 }
 .Home {
   height: 100%;

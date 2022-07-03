@@ -3,7 +3,7 @@ import fire from "../firebase/index";
 import * as cvstfjs from "@microsoft/customvision-tfjs";
 import { imgArr } from "../images/train/index";
 import Thumb from "../images/thumb.svg";
-import ripeImg from "../images/bRipe.png";
+import ripeImg from "../images/ripe1.png";
 import unripeImg from "../images/unripe1.png";
 import "../App.css";
 
@@ -26,13 +26,8 @@ import {
 function Dashboard({ handleLogout }) {
   const [ripe, setRipe] = useState(0);
   const [unripe, setUnripe] = useState(0);
-
-  // const incRipe = useCallback(() => {
-  //   setRipe(ripe + 1);
-  // }, [ripe]);
-  // const incUnripe = useCallback(() => {
-  //   setUnripe(unripe + 1);
-  // }, [unripe]);
+  const [percentage, setPercentage] = useState(0);
+  const [tr1, tr2, tr3, tr4, tr5] = imgArr;
   // const imageRefs = await fire
   //   .storage()
   //   .ref()
@@ -46,7 +41,7 @@ function Dashboard({ handleLogout }) {
     const getSampleImage = async () => {
       const FirstImage = document.createElement("img");
       FirstImage.crossOrigin = "anonymous";
-      FirstImage.src = unripeImg;
+      FirstImage.src = tr2;
       FirstImage.hidden = true;
       FirstImage.onload = async () => {
         const model = new cvstfjs.ObjectDetectionModel();
@@ -60,9 +55,9 @@ function Dashboard({ handleLogout }) {
             count++;
             setUnripe(count);
           }
-          if (detected_classes[i] === 0 && detected_scores[i] >= 0.6) {
-            // count++;
-            // setRipe(count)
+          if (detected_classes[i] === 0 && detected_scores[i] >= 0.22) {
+            count++;
+            setRipe(count);
           }
         }
       };
@@ -70,6 +65,11 @@ function Dashboard({ handleLogout }) {
     };
     getSampleImage();
   }, []);
+
+  useEffect(() => {
+    const totPerc = ((ripe / (ripe + unripe)) * 100).toFixed(2);
+    setPercentage(totPerc);
+  }, [ripe, unripe]);
 
   return (
     <div className="Dashboard">
@@ -88,7 +88,7 @@ function Dashboard({ handleLogout }) {
               <img src={Thumb} style={{ width: "100%", height: "30px" }} />
             </div>
             <div>
-              <H11>80%</H11>
+              <H11>{percentage}%</H11>
             </div>
           </Percentage>
           <RipeCard
