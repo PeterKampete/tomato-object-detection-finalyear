@@ -8,7 +8,7 @@ export const NavbarContainer = styled.div`
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: 1fr 0.1fr;
+  grid-template-columns: 1fr 0.5fr;
   align-items: center;
   justify-content: space-between;
   padding: 0px 10px;
@@ -33,13 +33,16 @@ export const GetStatistics = styled(Button)`
   width: 30%;
   height: 50px;
   font-weight: bold;
-  margin-top: 60px;
   background-color: #fff;
   color: #13033b;
+  position: relative;
   border: none;
   :hover {
     background-color: #13033b;
     border: 2px solid #fff;
+  };
+  @media (max-width: 768px) {
+  width: 50%
   }
 `;
 
@@ -47,6 +50,10 @@ export const Main = styled.div`
   display: grid;
   grid-template-columns: 1fr 0.7fr;
   box-sizing: border-box;
+  @media (max-width: 768px) {
+  display: flex;
+  flex-direction: column;
+  }
 `;
 
 export const ConStatistics = styled.div`
@@ -88,6 +95,9 @@ export const RipeStatistics = styled.div`
   align-items: center;
   box-sizing: border-box;
   justify-content: space-between;
+  @media (max-width: 768px) {
+  flex-direction: column;
+  }
 `;
 export const AuthContainer = styled.div`
   box-shadow: 0px 0px 3px 6px rgba(255, 255, 255, 0.8);
@@ -134,8 +144,8 @@ export const Percentage = styled.div`
   display: flex;
   flex-direction: column;
   box-shadow: 1.5px 0px 2px 1px #603bbb;
-  border-radius: 50%;
-  padding: 18px;
+  border-radius: 30%;
+  padding: 20px;
   justify-content: space-evenly;
   align-items: center;
 `;
@@ -143,13 +153,18 @@ export const H12 = styled.h1`
   margin-bottom: 0px;
   font-size: 20px;
   font-weight: bold;
-  color: #603bbb;
+  color: rgba(100, 100, 100);;
 `;
 export const H11 = styled.h1`
   margin-bottom: 0px;
   font-size: 40px;
   font-weight: bold;
   color: #603bbb;
+  padding-top: 8px;
+  @media (max-width: 768px) {
+  text-align: center;
+  font-size: 28px
+  }
 `;
 export const H1 = styled.h1`
   margin-bottom: 0px;

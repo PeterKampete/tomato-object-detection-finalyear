@@ -20,10 +20,12 @@ export const Card = styled.div`
   grid-template-rows: 0.4fr 1fr;
   align-items: center;
   box-shadow: ${({ bShadow }) => bShadow};
+  border-radius: 10px;
+  overflow: hidden;
   width: 100%;
   height: 60%;
   justify-content: center;
-  transform: scale(0.9);
+  transform: scale(0.99);
   :hover {
     transition: 1s ease-in-out;
     transform: scale(1);

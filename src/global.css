@@ -127,4 +127,21 @@
     padding: 8px 0;
     background: #3a2b58;
   }
+
+@media (max-width: 768px) {
+  .login .loginContainer .btnContainer p span {
+    font-weight: 500;
+    font-size: small;
+  }
+  .login .loginContainer {
+    padding: 20px;
+  
+  }
+  .login .loginContainer input {
+    margin-bottom: 15px;
+  }
+  .login .loginContainer label {
+    font-size: 18px;
+  }
+}
   

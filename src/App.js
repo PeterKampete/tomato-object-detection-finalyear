@@ -1,19 +1,20 @@
 import React from "react";
-import Home from "./pages/Home/Home";
-import Dashboard from "./pages/Dashboard";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "./App.css";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Login from "./pages/Login/Login";
+import { AuthProvider } from "./Auth";
+import PrivateRoute from "./PrivateRoute";
+import Dashboard from "./pages/Dashboard/Dashboard";
 import "./App.css";
 
 const App = () => {
   return (
-    <Router>
-      <div className="App">
-        <Routes>
-          <Route exact path="/" element={<Home />}></Route>
-          <Route exact path="/dashboard" element={<Dashboard />}></Route>
-        </Routes>
-      </div>
-    </Router>
+    <AuthProvider>
+      <Router>
+          <PrivateRoute exact path="/" component={Dashboard} />
+          <Route exact path="/login" component={Login} />
+      </Router>
+    </AuthProvider>
   );
 };
 
